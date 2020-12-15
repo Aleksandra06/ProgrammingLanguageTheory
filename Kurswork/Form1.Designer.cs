@@ -73,10 +73,11 @@ namespace Kurswork
             this.label16 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.textBox9 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.форматФайлаДляЗагрузкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -293,7 +294,7 @@ namespace Kurswork
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label17);
+            this.panel2.Controls.Add(this.textBox13);
             this.panel2.Controls.Add(this.dataGridView2);
             this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Controls.Add(this.label12);
@@ -533,15 +534,6 @@ namespace Kurswork
             this.textBox9.Size = new System.Drawing.Size(325, 300);
             this.textBox9.TabIndex = 14;
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(7, 448);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(163, 24);
-            this.label17.TabIndex = 14;
-            this.label17.Text = "Построение цепочек:";
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -553,6 +545,30 @@ namespace Kurswork
             this.форматФайлаДляЗагрузкиToolStripMenuItem.Text = "Формат файла для загрузки";
             this.форматФайлаДляЗагрузкиToolStripMenuItem.Click += new System.EventHandler(this.форматФайлаДляЗагрузкиToolStripMenuItem_Click);
             // 
+            // textBox13
+            // 
+            this.textBox13.AcceptsTab = true;
+            this.textBox13.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.textBox13.Font = new System.Drawing.Font("Segoe Print", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox13.Location = new System.Drawing.Point(8, 448);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBox13.Multiline = true;
+            this.textBox13.Name = "textBox13";
+            this.textBox13.ReadOnly = true;
+            this.textBox13.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox13.Size = new System.Drawing.Size(480, 79);
+            this.textBox13.TabIndex = 22;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(1299, 33);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(110, 30);
+            this.button5.TabIndex = 22;
+            this.button5.Text = "Очистить";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 23F);
@@ -560,6 +576,7 @@ namespace Kurswork
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Honeydew;
             this.ClientSize = new System.Drawing.Size(1421, 563);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -633,10 +650,11 @@ namespace Kurswork
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem форматФайлаДляЗагрузкиToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Button button5;
     }
 }
 

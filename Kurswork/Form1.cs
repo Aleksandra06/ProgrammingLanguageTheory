@@ -49,7 +49,15 @@ namespace Kurswork
             label12.Text = "Статус грамматик";
             isSuccessfullyGrammaticBNF = false;
             isSuccessfullyGrammaticKS = false;
-            textBox1.Text = "";
+            //textBox1.Text = "";
+            BNF = null;
+            textBox9.Text = null;
+            textBox10.Text = null;
+            textBox12.Text = null;
+            textBox11.Text = null;
+            dataGridView2.DataSource = null;
+            dataGridView1.DataSource = null;
+            textBox13.Text = null;
             try
             {
                 KS = new Grammatic();
@@ -347,6 +355,7 @@ namespace Kurswork
                 }
             } while (CheckWhile(list, grammatic.Lambda, grammatic.VN));
 
+            list.ForEach(x => x.Str = x.Str.Replace(grammatic.Lambda, ""));
             return ChainsDistinct(list).OrderBy(x => x.Count).ToList();
         }
 
@@ -423,7 +432,14 @@ namespace Kurswork
             label12.Text = "Статус грамматик";
             isSuccessfullyGrammaticBNF = false;
             isSuccessfullyGrammaticKS = false;
-            textBox1.Text = "";
+            BNF = null;
+            textBox9.Text = null;
+            textBox10.Text = null;
+            textBox12.Text = null;
+            textBox11.Text = null;
+            dataGridView2.DataSource = null;
+            dataGridView1.DataSource = null;
+            textBox13.Text = null;
             try
             {
                 if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
@@ -479,24 +495,23 @@ namespace Kurswork
             }
         }
 
-        private void ShowChain(List<Chain> chainsList, string chain)
-        {
-            textBox1.Text = "";
-            try
-            {
-                var item = chainsList.FirstOrDefault(x => x.Str.Equals(chain));
-                if (item == null)
-                {
-                    textBox1.Text = "Данная цепочка не выводима!";
-                }
+        //private void ShowChain(List<Chain> chainsList, string chain)
+        //{
+        //    try
+        //    {
+        //        var item = chainsList.FirstOrDefault(x => x.Str.Equals(chain));
+        //        if (item == null)
+        //        {
+        //            textBox1.Text = "Данная цепочка не выводима!";
+        //        }
 
-                textBox1.Text = item.GetRegularsListString();
-            }
-            catch (Exception ex)
-            {
-                textBox1.Text += Environment.NewLine + ex.Message;
-            }
-        }
+        //        textBox1.Text = item.GetRegularsListString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        textBox1.Text += Environment.NewLine + ex.Message;
+        //    }
+        //}
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -557,7 +572,7 @@ namespace Kurswork
             }
             catch (Exception ex)
             {
-                textBox1.Text += Environment.NewLine + ex.Message;
+                //textBox1.Text += Environment.NewLine + ex.Message;
             }
         }
 
@@ -588,7 +603,7 @@ namespace Kurswork
             }
             catch (Exception ex)
             {
-                textBox1.Text += Environment.NewLine + ex.Message;
+               // textBox1.Text += Environment.NewLine + ex.Message;
             }
         }
 
@@ -611,7 +626,7 @@ namespace Kurswork
             }
             catch (Exception ex)
             {
-                textBox1.Text += Environment.NewLine + ex.Message;
+                //textBox1.Text += Environment.NewLine + ex.Message;
             }
         }
 
@@ -634,7 +649,7 @@ namespace Kurswork
             }
             catch (Exception ex)
             {
-                textBox1.Text += Environment.NewLine + ex.Message;
+                //textBox1.Text += Environment.NewLine + ex.Message;
             }
         }
 
@@ -660,12 +675,12 @@ namespace Kurswork
 
                 if (string.IsNullOrEmpty(ChainKS[rowIndex].GetRegularsListString()))
                 {
-                    label17.Text = "По заданным параметрам невозможно создать данную цепочку";
+                    textBox13.Text = "По заданным параметрам невозможно создать данную цепочку";
                 }
                 else
                 {
-                    label17.Text = "Цепочка " + ChainKS[rowIndex].Str + " грамматики KC строится: " +
-                                   ChainKS[rowIndex].GetRegularsListString();
+                    textBox13.Text = "Цепочка " + ChainKS[rowIndex].Str + " грамматики KC строится: " +
+                                     ChainKS[rowIndex].GetRegularsListString();
                 }
             }
             catch (Exception ex)
@@ -696,12 +711,12 @@ namespace Kurswork
 
                 if (string.IsNullOrEmpty(ChainBNF[rowIndex].GetRegularsListString()))
                 {
-                    label17.Text = "По заданным параметрам невозможно создать данную цепочку";
+                    textBox13.Text = "По заданным параметрам невозможно создать данную цепочку";
                 }
                 else
                 {
-                    label17.Text = "Цепочка " + ChainBNF[rowIndex].Str + " грамматики БНФ строится: " +
-                                   ChainBNF[rowIndex].GetRegularsListString();
+                    textBox13.Text = "Цепочка " + ChainBNF[rowIndex].Str + " грамматики БНФ строится: " +
+                                     ChainBNF[rowIndex].GetRegularsListString();
                 }
             }
             catch (Exception ex)
@@ -776,6 +791,11 @@ namespace Kurswork
             str += "Правила каждое с новой строки в формате: A->aB|aBa|bC" + Environment.NewLine;
             str += "Каждая буква алфавита не может быть более одного символа! Лямбда не может быть более одного символа! Начальный символ должен быть нетерминальным!" + Environment.NewLine;
             MessageBox.Show(str, "Формат файла для загрузки:");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
         }
     }
 }

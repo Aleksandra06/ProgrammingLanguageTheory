@@ -36,28 +36,5 @@ namespace Kurswork.Models
 
             return str;
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    var reg = (Regular) obj;
-        //    if (!left.Equals(reg?.left))
-        //    {
-        //        return false;
-        //    }
-
-        //    bool isright = true;
-        //    if (reg.right.Count != right.Count)
-        //    {
-        //        return false;
-        //    }
-
-        //    foreach (var VARIABLE in right)
-        //    {
-                
-        //    }
-
-
-        //    return isright;
-        //}
     }
 }

@@ -155,11 +155,11 @@ namespace Kurswork.Models
                         var sim1 = GetRegularVNByVT(BNF.Regulation, p[0]);
                         if (string.IsNullOrEmpty(sim1))
                         {
-                            var newVN = CreateVN(BNF.VN);
-                            BNF.VN.Add(newVN);
+                            sim1 = CreateVN(BNF.VN);
+                            BNF.VN.Add(sim1);
                             BNF.Regulation.Add(new Regular()
                             {
-                                left = newVN,
+                                left = sim1,
                                 right = new List<List<string>>()
                                 {
                                     new List<string>() {p[0]}
@@ -169,11 +169,11 @@ namespace Kurswork.Models
                         var sim2 = GetRegularVNByVT(BNF.Regulation, p[1]);
                         if (string.IsNullOrEmpty(sim2))
                         {
-                            var newVN = CreateVN(BNF.VN);
-                            BNF.VN.Add(newVN);
+                            sim2 = CreateVN(BNF.VN);
+                            BNF.VN.Add(sim2);
                             BNF.Regulation.Add(new Regular()
                             {
-                                left = newVN,
+                                left = sim2,
                                 right = new List<List<string>>()
                                 {
                                     new List<string>() {p[1]}
@@ -555,10 +555,10 @@ namespace Kurswork.Models
                             regular.right.Add(ConvertStringToStringList(tmp));
                         }
 
-                        if (regular.right.Any(x => !x.Any(y => !"0987654321abcdefghijklmnopqrstuvwxyz".Contains(y) && !y.Equals(Lambda))))
-                        {
-                            throw new Exception("в правой части правила находится только нетерминальный символ!");
-                        }
+                        //if (regular.right.Any(x => !x.Any(y => !"0987654321abcdefghijklmnopqrstuvwxyz".Contains(y) && !y.Equals(Lambda))))
+                        //{
+                        //    throw new Exception("в правой части правила находится только нетерминальный символ!");
+                        //}
 
                         list.Add(regular);
                         break;
