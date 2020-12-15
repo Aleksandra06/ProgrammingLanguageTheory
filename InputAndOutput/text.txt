@@ -1,0 +1,7 @@
+a,b,c,k
+A,B,C
+A
+*
+A->aB|aaC|bbC|aa
+B->aa
+C->aaA|bbA
