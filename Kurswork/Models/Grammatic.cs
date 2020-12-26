@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kurswork.Models
 {
@@ -27,20 +25,6 @@ namespace Kurswork.Models
                 foreach (var regulars in Regulation)
                 {
                     str += Environment.NewLine + regulars.ToString();
-                    //str += Environment.NewLine + regulars.left + "->";
-                    //foreach (var reg in regulars.right[0])
-                    //{
-                    //    str += reg;
-                    //}
-                    //for (var index = 1; index < regulars.right.Count; index++)
-                    //{
-                    //    var regular = regulars.right[index];
-                    //    str += "|";
-                    //    foreach (var reg in regular)
-                    //    {
-                    //        str += reg;
-                    //    }
-                    //}
                 }
 
                 return str.Substring(1);
@@ -63,17 +47,17 @@ namespace Kurswork.Models
 
             for (int i = 0; i < regulation.Count; i++)
             {
-                if (regulation[i].right.Count != 1)
+                if (regulation[i].Right.Count != 1)
                 {
                     continue;
                 }
 
-                if (regulation[i].right[0].Count != 1)
+                if (regulation[i].Right[0].Count != 1)
                 {
                     continue;
                 }
 
-                if (!VN.Any(x => x.Equals(regulation[i].right.FirstOrDefault())))
+                if (!VN.Any(x => x.Equals(regulation[i].Right.FirstOrDefault())))
                 {
                     BNF.Regulation.Add(regulation[i]);
                     regulation.RemoveAt(i);
@@ -83,11 +67,11 @@ namespace Kurswork.Models
 
             foreach (var regular in regulation)
             {
-                BNF.Regulation.Add(new Regular() { left = regular.left });
-                BNF.Regulation.LastOrDefault().right = new List<List<string>>();
-                var nowRegulation = BNF.Regulation.LastOrDefault().right;
+                BNF.Regulation.Add(new Regular() { Left = regular.Left });
+                BNF.Regulation.LastOrDefault().Right = new List<List<string>>();
+                var nowRegulation = BNF.Regulation.LastOrDefault().Right;
 
-                foreach (var p in regular.right)
+                foreach (var p in regular.Right)
                 {
                     var vnCount = VNCount(p, VN);
                     //1
@@ -123,8 +107,8 @@ namespace Kurswork.Models
                             nowRegulation.Add(newRegular);
                             BNF.Regulation.Add(new Regular()
                             {
-                                left = newVN,
-                                right = new List<List<string>>()
+                                Left = newVN,
+                                Right = new List<List<string>>()
                                 {
                                     new List<string>() {simvols}
                                 }
@@ -159,8 +143,8 @@ namespace Kurswork.Models
                             BNF.VN.Add(sim1);
                             BNF.Regulation.Add(new Regular()
                             {
-                                left = sim1,
-                                right = new List<List<string>>()
+                                Left = sim1,
+                                Right = new List<List<string>>()
                                 {
                                     new List<string>() {p[0]}
                                 }
@@ -173,8 +157,8 @@ namespace Kurswork.Models
                             BNF.VN.Add(sim2);
                             BNF.Regulation.Add(new Regular()
                             {
-                                left = sim2,
-                                right = new List<List<string>>()
+                                Left = sim2,
+                                Right = new List<List<string>>()
                                 {
                                     new List<string>() {p[1]}
                                 }
@@ -200,8 +184,8 @@ namespace Kurswork.Models
                             BNF.VN.Add(sim2);
                             BNF.Regulation.Add(new Regular()
                             {
-                                left = sim2,
-                                right = new List<List<string>>()
+                                Left = sim2,
+                                Right = new List<List<string>>()
                                 {
                                     new List<string>() {p[0]}
                                 }
@@ -212,8 +196,8 @@ namespace Kurswork.Models
                     for (var index = 1; index < p.Count - 1; index++)
                     {
                         Regular reg = new Regular();
-                        reg.left = newSim;
-                        reg.right = new List<List<string>>();
+                        reg.Left = newSim;
+                        reg.Right = new List<List<string>>();
                         BNF.VN.Add(newSim);
                         var ch = p[index];
                         if (index == p.Count - 2)
@@ -232,8 +216,8 @@ namespace Kurswork.Models
                                     BNF.VN.Add(sim2);
                                     BNF.Regulation.Add(new Regular()
                                     {
-                                        left = sim2,
-                                        right = new List<List<string>>()
+                                        Left = sim2,
+                                        Right = new List<List<string>>()
                                         {
                                             new List<string>() { lastSim }
                                         }
@@ -248,7 +232,7 @@ namespace Kurswork.Models
                         }
                         if (VN.Any(x => x.Equals(ch)))
                         {
-                            reg.right.Add(new List<string>() { ch, newSim });
+                            reg.Right.Add(new List<string>() { ch, newSim });
                         }
                         else
                         {
@@ -259,80 +243,44 @@ namespace Kurswork.Models
                                 BNF.VN.Add(sim2);
                                 BNF.Regulation.Add(new Regular()
                                 {
-                                    left = sim2,
-                                    right = new List<List<string>>()
+                                    Left = sim2,
+                                    Right = new List<List<string>>()
                                     {
                                         new List<string>() { ch }
                                     }
                                 });
                             }
-                            reg.right.Add(new List<string>() { sim2, newSim });
+                            reg.Right.Add(new List<string>() { sim2, newSim });
                         }
                         BNF.Regulation.Add(reg);
                     }
-                    //Regular reg1 = new Regular();
-                    //reg1.left = newSim;
-                    //reg1.right = new List<List<string>>();
-                    //if (VN.Any(x => x.Equals(p[p.Count - 1])))
-                    //{
-                    //    reg1.right.Add(new List<string>() { p[p.Count - 1], newSim });
-                    //}
-                    //else
-                    //{
-                    //    var sim2 = GetRegularVNByVT(BNF.Regulation, p[p.Count - 1]);
-                    //    if (string.IsNullOrEmpty(sim2))
-                    //    {
-                    //        var newVN = CreateVN(BNF.VN);
-                    //        BNF.VN.Add(newVN);
-                    //        BNF.Regulation.Add(new Regular()
-                    //        {
-                    //            left = newVN,
-                    //            right = new List<List<string>>()
-                    //            {
-                    //                new List<string>() { p[p.Count - 1] }
-                    //            }
-                    //        });
-                    //    }
-                    //    reg1.right.Add(new List<string>() { sim2, newSim });
-                    //}
                 }
             }
 
             return BNF;
         }
 
-        private int GetCountRegular(List<string> list)
-        {
-            var count = 0;
-            foreach (var str in list)
-            {
-                count += str.Trim().Length;
-            }
-
-            return count;
-        }
-
         private string GetRegularVNByVT(List<Regular> grammatic, string chain)
         {
-            var list = grammatic.Where(x => x.right.Count == 1).ToList();
+            var list = grammatic.Where(x => x.Right.Count == 1).ToList();
             if (list == null || list?.Count == 0)
             {
                 return null;
             }
 
-            var elements = list.Where(x => x.right[0].Count == 1).ToList();
+            var elements = list.Where(x => x.Right[0].Count == 1).ToList();
             if (elements == null || elements?.Count == 0)
             {
                 return null;
             }
 
-            var element = elements.Where(x => x.right[0][0].Equals(chain)).ToList();
+            var element = elements.Where(x => x.Right[0][0].Equals(chain)).ToList();
             if (element == null || element?.Count == 0)
             {
                 return null;
             }
 
-            return element.FirstOrDefault().left;
+            return element.FirstOrDefault().Left;
         }
 
         private string CreateVN(List<string> vn)
@@ -365,46 +313,6 @@ namespace Kurswork.Models
             return count;
         }
 
-        //private bool CheckVTAndVNTogether(List<string> list, List<string> vt)
-        //{
-        //    bool? startVt = null;
-        //    bool? endVt = null;
-        //    bool? startVn = null;
-        //    bool? endVn = null;
-        //    for (var index = 0; index < list.Count; index++)
-        //    {
-        //        var ch = list[index];
-        //        if (vt.Any(x => x.Equals(ch)))
-        //        {
-        //            startVt = true;
-        //            if (endVt == true && endVn == false)
-        //            {
-        //                return false;
-        //            }
-        //            endVt = false;
-        //            if (startVn == true)
-        //            {
-        //                endVn = true;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            startVn = true;
-        //            if (endVn == true && endVt == false)
-        //            {
-        //                return false;
-        //            }
-        //            endVn = false;
-        //            if (startVt == true)
-        //            {
-        //                endVt = true;
-        //            }
-        //        }
-        //    }
-
-        //    return true;
-        //}
-
         public void SetGrammaticByFile(string str)
         {
             // Terminal
@@ -428,7 +336,7 @@ namespace Kurswork.Models
             str = str.Substring(index1 + 1);
             index1 = str.IndexOf("\n");
             var lamb = str.Substring(0, index1);
-            Lambda = lamb.Trim();
+            SetLambda(lamb.Trim());
 
             // Regular
             str = str.Substring(index1 + 1);
@@ -531,7 +439,7 @@ namespace Kurswork.Models
                 while (str.Length > 1)
                 {
                     Regular regular = new Regular();
-                    regular.right = new List<List<string>>();
+                    regular.Right = new List<List<string>>();
                     var index = str.IndexOf("-");
                     var ch = str.Substring(0, index);
                     if (ch.Length != 1)
@@ -543,7 +451,7 @@ namespace Kurswork.Models
                     {
                         throw new Exception("В левой части правила находится терминальный символ!");
                     }
-                    regular.left = ch;
+                    regular.Left = ch;
 
                     str = str.Substring(index + 2);
                     index = str.IndexOf("\n");
@@ -552,7 +460,7 @@ namespace Kurswork.Models
                         var tmp1 = ConvertStringToStringList(str.Substring(0), "|");
                         foreach (var tmp in tmp1)
                         {
-                            regular.right.Add(ConvertStringToStringList(tmp));
+                            regular.Right.Add(ConvertStringToStringList(tmp));
                         }
 
                         //if (regular.right.Any(x => !x.Any(y => !"0987654321abcdefghijklmnopqrstuvwxyz".Contains(y) && !y.Equals(Lambda))))
@@ -568,7 +476,7 @@ namespace Kurswork.Models
                     foreach (var tmp in tmp2)
                     {
 
-                        regular.right.Add(ConvertStringToStringList(tmp));
+                        regular.Right.Add(ConvertStringToStringList(tmp));
                     }
 
                     str = str.Substring(index + 1);
@@ -640,40 +548,6 @@ namespace Kurswork.Models
                     throw new Exception("В грамматике присутствует неопределенный символ");
                 }
             }
-
-            //int move = 0;
-            //for (int i = 0; i < str.Length; i++)
-            //{
-            //    foreach (var gramVt in VT)
-            //    {
-            //        if (gramVt.Equals(str[i].ToString()))
-            //        {
-            //            move++;
-            //        }
-            //    }
-            //}
-            //if (move > 0)
-            //{
-            //    list.Add(str.Substring(0, move));
-            //}
-            //str = str.Substring(move);
-
-            //move = 0;
-            //for (int i = 0; i < str.Length; i++)
-            //{
-            //    foreach (var gramVt in VN)
-            //    {
-            //        if (gramVt.Equals(str[i].ToString()))
-            //        {
-            //            move++;
-            //        }
-            //    }
-            //}
-
-            //if (move > 0)
-            //{
-            //    list.Add(str.Substring(0, 1));
-            //}
 
             return list;
         }

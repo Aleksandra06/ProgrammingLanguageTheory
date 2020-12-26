@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Kurswork.Models;
 
@@ -49,7 +44,6 @@ namespace Kurswork
             label12.Text = "Статус грамматик";
             isSuccessfullyGrammaticBNF = false;
             isSuccessfullyGrammaticKS = false;
-            //textBox1.Text = "";
             BNF = null;
             textBox9.Text = null;
             textBox10.Text = null;
@@ -67,7 +61,7 @@ namespace Kurswork
                 textBox1.Text += Environment.NewLine + "Нетерминальный алфавит считан успешно";
                 KS.SetStartChar(textBox5.Text);
                 textBox1.Text += Environment.NewLine + "Стартовый символ считан успешно";
-                KS.Lambda = textBox6.Text.Trim();
+                KS.SetLambda(textBox6.Text.Trim());
                 if (string.IsNullOrEmpty(KS.Lambda))
                 {
                     throw new Exception("Введите лямбду");
@@ -85,7 +79,6 @@ namespace Kurswork
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //textBox1.Text = "";
             label12.Text = "Статус грамматик";
             try
             {
@@ -143,121 +136,9 @@ namespace Kurswork
             }
         }
 
-        protected List<Chain> CompRec(int min, int max, Grammatic grammatic)
-        {
-            //Answer = CompRec(mGrammatic.Regulation[0].left, 0);
-            var index = grammatic.Regulation.FindIndex(x => x.left == grammatic.Start);
-            var tmp = grammatic.Regulation[index];
-            grammatic.Regulation.Remove(tmp);
-            grammatic.Regulation.Insert(0, tmp);
-
-            bool isOne = true;
-            List<Chain> list = new List<Chain>();
-            do
-            {
-                foreach (var regulars in grammatic.Regulation)
-                {
-                    if (isOne)
-                    {
-                        foreach (var reg in regulars.right)
-                        {
-                            list.Add(new Chain());
-                            foreach (var r in reg)
-                            {
-                                if (grammatic.VN.FindIndex(x => IsRavnStr(x, r)) >= 0)
-                                {
-                                    list.LastOrDefault().End = r;
-                                }
-                                else if (IsRavnStr(grammatic.Lambda, r))
-                                {
-                                    list.LastOrDefault().End = grammatic.Lambda;
-                                }
-                                else
-                                {
-                                    list.LastOrDefault().Str =
-                                        list.LastOrDefault().Str.Replace("\n", "").Replace("\t", "").Replace("r", "") + r;
-                                    list.LastOrDefault().End = grammatic.Lambda;
-                                }
-                            }
-                        }
-
-                        isOne = false;
-                        continue;
-                    }
-                    //
-                    for (var i = 0; i < list.Count; i++)
-                    {
-                        var listik = list[i];
-                        if (!IsRavnStr(listik.End, regulars.left))
-                        {
-                            continue;
-                        }
-
-                        var isOne2 = true;
-                        Chain listTmpOne = new Chain();
-                        foreach (var reg in regulars.right)
-                        {
-                            Chain listTmp;
-                            if (isOne2)
-                            {
-                                listTmp = list[i];
-                                listTmpOne = (Chain)list[i].Clone();
-                            }
-                            else
-                            {
-                                list.Insert(i, new Chain());
-                                listTmp = list[i];
-                                listTmp.Str = listTmpOne.Str.ToString();
-                                listTmp.End = listTmpOne.End.ToString();
-                                i++;
-                            }
-                            foreach (var r in reg)
-                            {
-                                if (grammatic.VN.FindIndex(x => IsRavnStr(x, r)) >= 0)
-                                {
-                                    listTmp.End = r;
-                                }
-                                else if (IsRavnStr(grammatic.Lambda, r))
-                                {
-                                    listTmp.End = grammatic.Lambda;
-                                }
-                                else
-                                {
-                                    listTmp.Str = listTmp.Str.Replace("\n", "").Replace("\t", "").Replace("r", "") + r;
-                                    listTmp.End = grammatic.Lambda;
-                                }
-                            }
-
-                            isOne2 = false;
-                        }
-                    }
-
-                }
-
-                for (var i = 0; i < list.Count; i++)
-                {
-                    var model = list[i];
-                    if (model.Count < min && model.End == grammatic.Lambda)
-                    {
-                        list.Remove(model);
-                        i--;
-                        continue;
-                    }
-
-                    if (model.Count > max)
-                    {
-                        list.Remove(model);
-                        i--;
-                    }
-                }
-            } while (Check(list, grammatic.Lambda));//пока есть не законченные цепочки
-
-            return ChainsDistinct(list);
-        }
-
         protected List<Chain> CompRec2(int min, int max, Grammatic grammatic)
         {
-            var index = grammatic.Regulation.FindIndex(x => x.left == grammatic.Start);
+            var index = grammatic.Regulation.FindIndex(x => x.Left == grammatic.Start);
             var tmp = grammatic.Regulation[index];
             grammatic.Regulation.Remove(tmp);
             grammatic.Regulation.Insert(0, tmp);
@@ -270,7 +151,7 @@ namespace Kurswork
                 {
                     if (isOne)
                     {
-                        foreach (var reg in regulars.right)
+                        foreach (var reg in regulars.Right)
                         {
                             list.Add(new Chain());
                             var str = "";
@@ -296,7 +177,7 @@ namespace Kurswork
                                 continue;
                             }
 
-                            if (!listik.Str[j].Equals(regulars.left[0]))
+                            if (!listik.Str[j].Equals(regulars.Left[0]))
                             {
                                 continue;
                             }
@@ -304,7 +185,7 @@ namespace Kurswork
                             var isOne2 = true;
                             Chain listTmpOne = new Chain();
                             string str = "";
-                            foreach (var reg in regulars.right)
+                            foreach (var reg in regulars.Right)
                             {
                                 str = "";
                                 Chain listTmp = list[i];
@@ -353,6 +234,27 @@ namespace Kurswork
                         i--;
                     }
                 }
+
+                if (list.Count > 50)
+                {
+                    textBox1.Text += "Цепочек более 50. Выполнение остановленно.";
+                    for (var i = 0; i < list.Count; i++)
+                    {
+                        var item = list[i];
+                        for (var index1 = 0; index1 < item.Str.Length; index1++) 
+                        {
+                            var ch = item.Str[index1];
+                            if (grammatic.VN.Any(x => x.Equals(ch.ToString())))
+                            {
+                                list.RemoveAt(i);
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                }
             } while (CheckWhile(list, grammatic.Lambda, grammatic.VN));
 
             list.ForEach(x => x.Str = x.Str.Replace(grammatic.Lambda, ""));
@@ -394,37 +296,6 @@ namespace Kurswork
             }
 
             return otvet;
-        }
-
-        private bool IsRavnStr(string str1, string str2)
-        {
-            if (str1.Replace("\n", "").Replace("\t", "").Replace("r", "") ==
-                str2.Replace("\n", "").Replace("\t", "").Replace("r", ""))
-            {
-                return true;
-            }
-
-            var t1 = str1.Contains(str2);
-            var t2 = str2.GetHashCode();
-
-            return false;
-        }
-        private bool Check(List<Chain> list, string lambda)//пока есть не законченные цепочки
-        {
-            if (list == null || list?.Count == 0)
-            {
-                return false;
-            }
-
-            foreach (var model in list)
-            {
-                if (!IsRavnStr(model.End, lambda))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -494,24 +365,6 @@ namespace Kurswork
                 textBox1.Text += Environment.NewLine + "Ошибка! " + ex.Message;
             }
         }
-
-        //private void ShowChain(List<Chain> chainsList, string chain)
-        //{
-        //    try
-        //    {
-        //        var item = chainsList.FirstOrDefault(x => x.Str.Equals(chain));
-        //        if (item == null)
-        //        {
-        //            textBox1.Text = "Данная цепочка не выводима!";
-        //        }
-
-        //        textBox1.Text = item.GetRegularsListString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        textBox1.Text += Environment.NewLine + ex.Message;
-        //    }
-        //}
 
         private void button3_Click(object sender, EventArgs e)
         {

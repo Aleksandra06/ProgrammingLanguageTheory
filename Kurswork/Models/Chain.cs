@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kurswork.Models
 {
     public class Chain : ICloneable
     {
         public string Str { get; set; } = "";
-        public string End { get; set; }
         public int Count => Str.Length;
         public List<string> RegularsList { get; set; }
 
@@ -25,8 +22,6 @@ namespace Kurswork.Models
             var x = (Chain) obj;
             var isStr = Str.Equals(x.Str);
             return isStr;
-            var isLamb = End.Equals(x.End);
-            return isLamb & isStr;
         }
 
         public string GetRegularsListString()
@@ -43,11 +38,5 @@ namespace Kurswork.Models
 
             return str.Substring(2);
         }
-    }
-
-    public class VNSimvol
-    {
-        public string VN { get; set; }
-        public int Index { get; set; }
     }
 }
