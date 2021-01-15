@@ -38,8 +38,8 @@ namespace Kurswork.Models
         public Grammatic ConvertToBNFGrammatik()
         {
             var BNF = new Grammatic();
-            BNF.VN = VN;
-            BNF.VT = VT;
+            BNF.VN = VN.ToList();
+            BNF.VT = VT.ToList();
             BNF.Start = Start;
             BNF.Lambda = Lambda;
             BNF.Regulation = new List<Regular>();
@@ -170,7 +170,7 @@ namespace Kurswork.Models
 
                     //5
                     var newSim = CreateVN(BNF.VN);
-                    BNF.VN.Add(newSim);
+                    //BNF.VN.Add(newSim);
                     if (VN.Any(x => x.Equals(p[0])))
                     {
                         nowRegulation.Add(new List<string>() { p[0], newSim });

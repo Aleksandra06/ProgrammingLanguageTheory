@@ -235,9 +235,9 @@ namespace Kurswork
                     }
                 }
 
-                if (list.Count > 50)
+                if (list.Count > 1000)
                 {
-                    textBox1.Text += "Цепочек более 50. Выполнение остановленно.";
+                    textBox1.Text += "Цепочек более 1000. Выполнение остановленно.";
                     for (var i = 0; i < list.Count; i++)
                     {
                         var item = list[i];
@@ -406,22 +406,22 @@ namespace Kurswork
                 label12.Text = "Статус грамматик";
                 var rowIndex = e.RowIndex;
                 var value = dataGridView2[0, rowIndex].Value.ToString();
-                if (rowIndex == ChainKS.Count)
+                if (rowIndex == ChainBNF.Count)
                 {
-                    ChainKS.Add(new Chain() {Str = value});
+                    ChainBNF.Add(new Chain() {Str = value});
                     BildDataGridBNF();
                     return;
                 }
 
                 if (string.IsNullOrEmpty(value))
                 {
-                    ChainKS.RemoveAt(rowIndex);
+                    ChainBNF.RemoveAt(rowIndex);
                     BildDataGridBNF();
                     return;
                 }
 
 
-                ChainKS[rowIndex].Str = dataGridView1[0, rowIndex].Value.ToString();
+                ChainBNF[rowIndex].Str = dataGridView2[0, rowIndex].Value.ToString();
             }
             catch (Exception ex)
             {
